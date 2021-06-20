@@ -3,6 +3,7 @@
     <string name="enter_ip">Please enter ip address</string>
     <string name="enter_port">Please enter port number</string>
     <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
     <string name="rudder">Rudder</string>
     <string name="throttle">Throttle</string>
 

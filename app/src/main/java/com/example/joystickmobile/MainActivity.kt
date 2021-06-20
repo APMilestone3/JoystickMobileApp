@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-
+        var isConnected = false
         val connectButton = findViewById<Button>(R.id.connect_button)
         val ipEditText = findViewById<EditText>(R.id.ip)
         val portEditText = findViewById<EditText>(R.id.port)
@@ -119,18 +119,49 @@ class MainActivity : AppCompatActivity() {
             // create dialog box
             val alert2 = outOfBoundPortNumberDialog.create()
             // set title for alert dialog box
-            alert2.setTitle("please enter port and ip")
-
+            alert2.setTitle("Invalid port number")
 
             if (ipEditText.text.toString() == "" || portEditText.text.toString() == "") {
                 alert1.show()
             } else if (portEditText.text.toString().toInt() < 0 ||
                 portEditText.text.toString().toInt() > 65535
             ) {
-               alert2.show()
+                alert2.show()
             } else {
+                isConnected = true
                 mainViewModel.onChangeConnectClick()
             }
+        }
+
+        val disconnectButton = findViewById<Button>(R.id.disconnect_button)
+
+        disconnectButton.setOnClickListener {
+
+            val clientNotConnectedAlert = AlertDialog.Builder(this)
+
+                // set message of alert dialog
+
+                // if the dialog is cancelable
+                .setCancelable(false)
+
+                // negative button text and action
+                .setNegativeButton("Close", DialogInterface.OnClickListener { dialog, id ->
+                    dialog.cancel()
+                })
+
+            // create dialog box
+            val alert = clientNotConnectedAlert.create()
+            // set title for alert dialog box
+            alert.setTitle("Error! client is not connected")
+
+            if (!isConnected) {
+                alert.show()
+            }
+
+            else {
+                mainViewModel.onChangeDisconnectClick()
+            }
+
         }
 
     }

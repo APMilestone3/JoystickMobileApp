@@ -77,7 +77,6 @@ class JoystickView @JvmOverloads constructor(
     private fun touchMove(x: Float, y: Float) {
         //Update positions and properties of drawn items:
 
-        println("the big circle Diameter is ${2*radiusBigCircle}")
         val distance = distance(x,y,centerBigCircle.x, centerBigCircle.y)
 
         if (distance <= (radiusBigCircle - radiusLittleCircle)) {
@@ -94,11 +93,6 @@ class JoystickView @JvmOverloads constructor(
 
     private fun distance(x1: Float, y1: Float, x2: Float, y2: Float): Float {
         return sqrt((x1 - x2).pow(2) + (y1 - y2).pow(2))
-    }
-
-
-    init {
-        println("Joystick created")
     }
 
 

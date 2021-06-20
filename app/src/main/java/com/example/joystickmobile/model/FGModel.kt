@@ -39,22 +39,22 @@ class FGModel() {
 
     fun setRudder(rudder: Float) {
         this.rudder = rudder
-        println("the rudder progress is ${this.rudder}")
     }
 
     fun setThrottle(throttle: Float) {
         this.throttle = throttle
-        println("the throttle progress is ${this.throttle}")
     }
 
     fun setAileron(aileron: Float) {
         this.aileron = aileron
-        println("the aileron value is ${this.aileron}")
     }
 
     fun setElevator(elevator: Float) {
         this.elevator = elevator
-        println("the elevator value is ${this.elevator}")
+    }
+
+    fun getClient(): Socket {
+        return client
     }
 
 
@@ -65,9 +65,8 @@ class FGModel() {
                 client = Socket(_ip, _port)
                 output = PrintWriter(client.getOutputStream(), true)
                 this.isStopped = false
-                println("connected")
             } catch (e: Exception) {
-                println(e)
+                e.printStackTrace()
             }
         }.start()
 

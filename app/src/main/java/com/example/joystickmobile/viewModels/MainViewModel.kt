@@ -12,10 +12,6 @@ class MainViewModel : ViewModel() {
     val ipAddress = MutableLiveData<String>()
     val portNumber = MutableLiveData<String>()
 
-    init {
-        println("ViewModel created")
-    }
-
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun onChangeRudderProgress(progress: Int) {
         val realProgress = progress.toFloat()/100
@@ -34,6 +30,11 @@ class MainViewModel : ViewModel() {
         model.setIp(ipAddress)
         model.setPort(portNumber)
         model.connect()
+    }
+
+    fun onChangeDisconnectClick() {
+        val client = model.getClient()
+        model.close(client)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
