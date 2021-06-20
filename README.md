@@ -3,7 +3,7 @@
 ### Summary
 We developed an Android app which allows the user to fly an airplane through the FlightGear simulator. The application implements a TCP client which sends data to the FlightGear simulator server.
 We actually send data about the ailero,elavator, rudder,throttle. The app has a seekBar for the throttle, and another one for the rudder, and also has a joystick for changing the aileron and elevator. 
-During the project we implement the MVVM architecture, and using a ForkJoinPool with one thread.
+During the project we implement the MVVM architecture, and used a ForkJoinPool with one thread.
 
 ### App Features
 - [x] Change the flight speed as desired (the throttle seekBar)
