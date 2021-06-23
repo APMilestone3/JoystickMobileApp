@@ -13,7 +13,6 @@
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum = "1"
         tools:context=".MainActivity"
         tools:ignore="ExtraText">
 
@@ -161,10 +160,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/joystick_control"
             app:layout_constraintVertical_bias="1.0" />
-
-
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
