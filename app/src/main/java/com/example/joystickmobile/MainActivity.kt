@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         val portEditText = findViewById<EditText>(R.id.port)
         connectButton.setOnClickListener {
 
-            val missingIpAndPortDialog = AlertDialog.Builder(this)
+            val connectionDialog = AlertDialog.Builder(this)
 
                 // set message of alert dialog
 
@@ -94,42 +94,57 @@ class MainActivity : AppCompatActivity() {
                 .setCancelable(false)
 
                 // negative button text and action
-                .setNegativeButton("Close", DialogInterface.OnClickListener { dialog, id ->
+                .setNegativeButton("Close", DialogInterface.OnClickListener { dialog, _ ->
                     dialog.cancel()
                 })
 
             // create dialog box
-            val alert1 = missingIpAndPortDialog.create()
+            val missingDataAlert = connectionDialog.create()
             // set title for alert dialog box
-            alert1.setTitle("please enter port and ip")
-
+            missingDataAlert.setTitle("please enter port and ip")
 
             val outOfBoundPortNumberDialog = AlertDialog.Builder(this)
 
-                // set message of alert dialog
+                // if the dialog is cancelable
+                .setCancelable(false)
+
+                // negative button text and action
+                .setNegativeButton("Close", DialogInterface.OnClickListener { dialog, _ ->
+                    dialog.cancel()
+                })
+
+            // create dialog box
+            val portOutOfBoundAlert = outOfBoundPortNumberDialog.create()
+            // set title for alert dialog box
+            portOutOfBoundAlert.setTitle("Invalid port number")
+
+
+            val onSuccessDialog = AlertDialog.Builder(this)
 
                 // if the dialog is cancelable
                 .setCancelable(false)
 
                 // negative button text and action
-                .setNegativeButton("Close", DialogInterface.OnClickListener { dialog, id ->
+                .setNegativeButton("Close", DialogInterface.OnClickListener { dialog, _ ->
                     dialog.cancel()
                 })
 
             // create dialog box
-            val alert2 = outOfBoundPortNumberDialog.create()
+            val onSuccessAlert = onSuccessDialog.create()
             // set title for alert dialog box
-            alert2.setTitle("Invalid port number")
+            onSuccessAlert.setTitle("Connected")
+
 
             if (ipEditText.text.toString() == "" || portEditText.text.toString() == "") {
-                alert1.show()
+                missingDataAlert.show()
             } else if (portEditText.text.toString().toInt() < 0 ||
                 portEditText.text.toString().toInt() > 65535
             ) {
-                alert2.show()
+                portOutOfBoundAlert.show()
             } else {
                 isConnected = true
                 mainViewModel.onChangeConnectClick()
+                onSuccessAlert.show()
             }
         }
 
@@ -137,7 +152,7 @@ class MainActivity : AppCompatActivity() {
 
         disconnectButton.setOnClickListener {
 
-            val clientNotConnectedAlert = AlertDialog.Builder(this)
+            val clientNotConnectedDialog = AlertDialog.Builder(this)
 
                 // set message of alert dialog
 
@@ -150,22 +165,41 @@ class MainActivity : AppCompatActivity() {
                 })
 
             // create dialog box
-            val alert = clientNotConnectedAlert.create()
+            val notConnectedAlert = clientNotConnectedDialog.create()
             // set title for alert dialog box
-            alert.setTitle("Error! client is not connected")
+            notConnectedAlert.setTitle("Error! client is not connected")
+
+
+            val onDisconnectedDialog = AlertDialog.Builder(this)
+
+                // set message of alert dialog
+
+                // if the dialog is cancelable
+                .setCancelable(false)
+
+                // negative button text and action
+                .setNegativeButton("Close", DialogInterface.OnClickListener { dialog, id ->
+                    dialog.cancel()
+                })
+
+            // create dialog box
+            val onDisconnectedAlert = onDisconnectedDialog.create()
+            // set title for alert dialog box
+            onDisconnectedAlert.setTitle("disconnected")
+
 
             if (!isConnected) {
-                alert.show()
+                notConnectedAlert.show()
             }
-
             else {
+                onDisconnectedAlert.show()
                 mainViewModel.onChangeDisconnectClick()
+                isConnected = false
             }
 
         }
 
     }
-    
-}
 
+}
 

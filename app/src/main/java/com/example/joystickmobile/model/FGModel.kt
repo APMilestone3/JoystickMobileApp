@@ -16,17 +16,13 @@ class FGModel() {
     private var output: PrintWriter? = null
     private lateinit var _ip: String
     private var _port: Int = 0
-    @Volatile var isStopped : Boolean = true
+    @Volatile
+    var isStopped: Boolean = true
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private val fj: ForkJoinPool =
         ForkJoinPool(1, ForkJoinPool.defaultForkJoinWorkerThreadFactory, null, true)
 
-
-
-    init {
-        println("Model created")
-    }
 
     fun setIp(ip: MutableLiveData<String>) {
         this._ip = ip.value.toString()
@@ -56,7 +52,6 @@ class FGModel() {
     fun getClient(): Socket {
         return client
     }
-
 
 
     fun connect() {
@@ -94,9 +89,8 @@ class FGModel() {
         try {
             client.close();
             this.isStopped = true
-            println("disconnected")
         } catch (e: Exception) {
-            println("error while closing")
+            e.printStackTrace()
         }
     }
-}
+}g
