@@ -10,6 +10,9 @@ During the project we implement the MVVM architecture, and used a ForkJoinPool w
 - [x] Joystick animation that allows the user to change the elevator and aileron. 
 
 
+
+![JoystickMobileApp](JoystickMoblieApp_picture.PNG)
+
 ### Folder Structure
 
 
