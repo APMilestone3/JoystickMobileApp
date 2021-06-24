@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         joystickView = findViewById(R.id.joystick_control)
 
 
+        // set the joystick functional interface
         joystickView.onChange = OnJoystickChange { aileron, elevator ->
             mainViewModel.onAileronChange(aileron)
             mainViewModel.onElevatorChange(elevator)
@@ -43,6 +44,8 @@ class MainActivity : AppCompatActivity() {
 
 
         val rudderSeekBar = findViewById<SeekBar>(R.id.rudderSeekBar)
+
+        // rudderSeekBar listener
         rudderSeekBar?.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(
@@ -53,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onStartTrackingTouch(seek: SeekBar) {
-                // write custom code for progress is started
+
             }
 
             override fun onStopTrackingTouch(seek: SeekBar) {
@@ -61,6 +64,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        // throttleSeekBar listener
         val throttleSeekBar = findViewById<SeekBar>(R.id.throttleSeekBar)
         throttleSeekBar?.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
@@ -80,68 +84,67 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+
         var isConnected = false
         val connectButton = findViewById<Button>(R.id.connect_button)
         val ipEditText = findViewById<EditText>(R.id.ip)
         val portEditText = findViewById<EditText>(R.id.port)
+
+        // connectButton listener
         connectButton.setOnClickListener {
 
-            val connectionDialog = AlertDialog.Builder(this)
+            // missing ip or port dialog
+            val missingDataDialog = AlertDialog.Builder(this)
 
-                // set message of alert dialog
-
-                // if the dialog is cancelable
                 .setCancelable(false)
 
-                // negative button text and action
                 .setNegativeButton("Close", DialogInterface.OnClickListener { dialog, _ ->
                     dialog.cancel()
                 })
 
             // create dialog box
-            val missingDataAlert = connectionDialog.create()
+            val missingDataAlert = missingDataDialog.create()
+
             // set title for alert dialog box
             missingDataAlert.setTitle("please enter port and ip")
 
+            // invalid port dialog
             val outOfBoundPortNumberDialog = AlertDialog.Builder(this)
 
-                // if the dialog is cancelable
                 .setCancelable(false)
 
-                // negative button text and action
                 .setNegativeButton("Close", DialogInterface.OnClickListener { dialog, _ ->
                     dialog.cancel()
                 })
 
-            // create dialog box
+
             val portOutOfBoundAlert = outOfBoundPortNumberDialog.create()
-            // set title for alert dialog box
+
             portOutOfBoundAlert.setTitle("Invalid port number")
 
-
+            // onSuccess dialog
             val onSuccessDialog = AlertDialog.Builder(this)
 
-                // if the dialog is cancelable
                 .setCancelable(false)
 
-                // negative button text and action
                 .setNegativeButton("Close", DialogInterface.OnClickListener { dialog, _ ->
                     dialog.cancel()
                 })
 
-            // create dialog box
             val onSuccessAlert = onSuccessDialog.create()
-            // set title for alert dialog box
+
             onSuccessAlert.setTitle("Connected")
 
-
+            // if ip or port is missing, pop out suitable massage
             if (ipEditText.text.toString() == "" || portEditText.text.toString() == "") {
                 missingDataAlert.show()
-            } else if (portEditText.text.toString().toInt() < 0 ||
-                portEditText.text.toString().toInt() > 65535
-            ) {
+            }
+            // in case invalid port number inserted
+            else if (portEditText.text.toString().toInt() < 0 ||
+                portEditText.text.toString().toInt() > 65535) {
                 portOutOfBoundAlert.show()
-            } else {
+            }
+            else {
                 isConnected = true
                 mainViewModel.onChangeConnectClick()
                 onSuccessAlert.show()
@@ -150,44 +153,39 @@ class MainActivity : AppCompatActivity() {
 
         val disconnectButton = findViewById<Button>(R.id.disconnect_button)
 
+        // disconnectButton listener
         disconnectButton.setOnClickListener {
 
+            // client not connected dialog
             val clientNotConnectedDialog = AlertDialog.Builder(this)
 
-                // set message of alert dialog
-
-                // if the dialog is cancelable
                 .setCancelable(false)
 
-                // negative button text and action
                 .setNegativeButton("Close", DialogInterface.OnClickListener { dialog, id ->
                     dialog.cancel()
                 })
 
-            // create dialog box
+
             val notConnectedAlert = clientNotConnectedDialog.create()
-            // set title for alert dialog box
+
+
             notConnectedAlert.setTitle("Error! client is not connected")
 
 
+            // OnDisconnect dialog
             val onDisconnectedDialog = AlertDialog.Builder(this)
 
-                // set message of alert dialog
-
-                // if the dialog is cancelable
                 .setCancelable(false)
 
-                // negative button text and action
                 .setNegativeButton("Close", DialogInterface.OnClickListener { dialog, id ->
                     dialog.cancel()
                 })
 
-            // create dialog box
             val onDisconnectedAlert = onDisconnectedDialog.create()
-            // set title for alert dialog box
+
             onDisconnectedAlert.setTitle("disconnected")
 
-
+            // if client in not connected - show error massage
             if (!isConnected) {
                 notConnectedAlert.show()
             }
