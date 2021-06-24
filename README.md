@@ -22,7 +22,7 @@ During the project we implement the MVVM architecture, and used a ForkJoinPool w
 
 ### Compiling and Running
 1. Download this repository.
-2. Make sure the setting: "--telnet=socket,in,10,127.0.0.1,6400,tcp" is located in the FG settings, and click Fly in the FG.
+2. Make sure the setting: "--telnet=socket,in,10,127.0.0.1,6400,tcp" is located in the FG settings, and click Fly in the FG. You Need to start the engine, click: Cessna C172P and the click: Autostart
 4. Open android studio, run the app, enter your ip and port, and press the connect button.
 5. Set the throttle, rudder, aileron, elevator, and play with the joystick. 
 
