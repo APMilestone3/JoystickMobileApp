@@ -53,7 +53,7 @@ class FGModel() {
         return client
     }
 
-
+    /** function to connect to FlightGear **/
     fun connect() {
         Thread {
             try {
@@ -67,7 +67,7 @@ class FGModel() {
 
     }
 
-
+    /** function to send flight information to FlightGear, invoked every time the data is changed **/
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @Throws(InterruptedException::class)
     fun send() {
@@ -84,7 +84,7 @@ class FGModel() {
         }
     }
 
-
+    /** function to close the connection **/
     fun close(client: Socket) {
         try {
             client.close();
