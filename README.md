@@ -28,7 +28,7 @@ During the project we implement the MVVM architecture, and used a ForkJoinPool w
 
 ### Additional Links
 * [UML Diagram](JoystickApp_UML.pdf)
-* [Walkthrough video]() 
+* [Walkthrough video](https://youtu.be/bxStU2fIxBs) 
 
 
 
