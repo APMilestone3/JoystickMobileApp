@@ -14,7 +14,20 @@ During the project we implement the MVVM architecture, and used a ForkJoinPool w
 ![JoystickMobileApp](JoystickMoblieApp_picture.PNG)
 
 ### Folder Structure
-
+```
+├── app
+│   ├── src
+│   │   ├── main
+│   │   │   ├── java/com/example/joystickmobile
+│   │   │   │   ├── model
+│   │   │   │   │   ├── FGModel.kt - the model of the app.
+|   |   |   |   |── ViewModels
+│   │   │   │   │   ├── MainViewModel.kt - the view model of the app.
+│   │   │   │   ├── view
+│   │   │   │   │   ├── JoystickView.kt - the JoystickView of the app.
+│   │   │   │   │   ├── OnJoystickChange.kt - functional interface.
+│   │   │   │   ├── MainActivity.kt - MainActivity of the app.
+```
 
 ### Required installations
 * FlightFear 2020.3.8 (For windows 7,8,10)
