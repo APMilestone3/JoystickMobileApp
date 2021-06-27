@@ -16,6 +16,7 @@ class FGModel() {
     private var output: PrintWriter? = null
     private lateinit var _ip: String
     private var _port: Int = 0
+
     @Volatile
     var isStopped: Boolean = true
 
@@ -85,12 +86,14 @@ class FGModel() {
     }
 
     /** function to close the connection **/
-    fun close(client: Socket) {
+    fun close() {
         try {
+            output?.close()
             client.close();
             this.isStopped = true
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
     }
 }

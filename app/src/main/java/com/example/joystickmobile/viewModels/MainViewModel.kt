@@ -33,8 +33,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun onChangeDisconnectClick() {
-        val client = model.getClient()
-        model.close(client)
+        model.close()
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
