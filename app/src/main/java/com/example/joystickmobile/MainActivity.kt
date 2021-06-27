@@ -1,11 +1,15 @@
 package com.example.joystickmobile
 
+import android.annotation.SuppressLint
+import android.content.DialogInterface
+import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.SeekBar
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -13,8 +17,8 @@ import com.example.joystickmobile.databinding.ActivityMainBinding
 import com.example.joystickmobile.viewModels.MainViewModel
 import com.example.joystickmobile.views.JoystickView
 import com.example.joystickmobile.views.OnJoystickChange
-import android.content.DialogInterface
-import androidx.appcompat.app.AlertDialog
+import java.math.BigInteger
+import java.net.InetAddress
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dataBinding: ActivityMainBinding
     private lateinit var joystickView: JoystickView
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,11 +92,12 @@ class MainActivity : AppCompatActivity() {
 
         var isConnected = false
         val connectButton = findViewById<Button>(R.id.connect_button)
-        val ipEditText = findViewById<EditText>(R.id.ip)
-        val portEditText = findViewById<EditText>(R.id.port)
+        val disconnectButton = findViewById<Button>(R.id.disconnect_button)
 
         // connectButton listener
         connectButton.setOnClickListener {
+            val ipEditText = findViewById<EditText>(R.id.ip)
+            val portEditText = findViewById<EditText>(R.id.port)
 
             // missing ip or port dialog
             val missingDataDialog = AlertDialog.Builder(this)
@@ -122,82 +128,47 @@ class MainActivity : AppCompatActivity() {
 
             portOutOfBoundAlert.setTitle("Invalid port number")
 
-            // onSuccess dialog
-            val onSuccessDialog = AlertDialog.Builder(this)
 
-                .setCancelable(false)
-
-                .setNegativeButton("Close", DialogInterface.OnClickListener { dialog, _ ->
-                    dialog.cancel()
-                })
-
-            val onSuccessAlert = onSuccessDialog.create()
-
-            onSuccessAlert.setTitle("Connected")
+            val portNumber = portEditText.text.toString().toIntOrNull()
 
             // if ip or port is missing, pop out suitable massage
             if (ipEditText.text.toString() == "" || portEditText.text.toString() == "") {
                 missingDataAlert.show()
             }
+
             // in case invalid port number inserted
-            else if (portEditText.text.toString().toInt() < 0 ||
-                portEditText.text.toString().toInt() > 65535) {
+            else if (portNumber == null || portNumber < 0 || portNumber > 65535) {
                 portOutOfBoundAlert.show()
+
             }
+
             else {
-                isConnected = true
                 mainViewModel.onChangeConnectClick()
-                onSuccessAlert.show()
+                connectButton.text = "Connected"
+                connectButton.isEnabled = false
+                disconnectButton.text = "Disconnect"
+                disconnectButton.isEnabled = true
+                isConnected = true
             }
+
         }
 
-        val disconnectButton = findViewById<Button>(R.id.disconnect_button)
 
         // disconnectButton listener
         disconnectButton.setOnClickListener {
 
-            // client not connected dialog
-            val clientNotConnectedDialog = AlertDialog.Builder(this)
-
-                .setCancelable(false)
-
-                .setNegativeButton("Close", DialogInterface.OnClickListener { dialog, id ->
-                    dialog.cancel()
-                })
-
-
-            val notConnectedAlert = clientNotConnectedDialog.create()
-
-
-            notConnectedAlert.setTitle("Error! client is not connected")
-
-
-            // OnDisconnect dialog
-            val onDisconnectedDialog = AlertDialog.Builder(this)
-
-                .setCancelable(false)
-
-                .setNegativeButton("Close", DialogInterface.OnClickListener { dialog, id ->
-                    dialog.cancel()
-                })
-
-            val onDisconnectedAlert = onDisconnectedDialog.create()
-
-            onDisconnectedAlert.setTitle("disconnected")
-
-            // if client in not connected - show error massage
-            if (!isConnected) {
-                notConnectedAlert.show()
-            }
-            else {
-                onDisconnectedAlert.show()
-                mainViewModel.onChangeDisconnectClick()
-                isConnected = false
-            }
+            mainViewModel.onChangeDisconnectClick()
+            connectButton.text = "Connect"
+            connectButton.isEnabled = true
+            disconnectButton.text = "Disconnected"
+            disconnectButton.isEnabled = false
+            isConnected = false
 
         }
 
     }
+
+
 
 }
 
